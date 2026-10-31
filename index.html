@@ -90,14 +90,26 @@ section{padding:76px 20px;max-width:1000px;margin:auto}
 <audio id="bgmusic" loop preload="none"><source src="music.mp3" type="audio/mpeg"></audio>
 <button class="music" id="musicBtn" aria-label="Play or pause music">♫ ሙዚቃ አጫውቺ</button>
 <script>
-const audio=document.getElementById('bgmusic');
-const btn=document.getElementById('musicBtn');
-let playing=false;
-btn.addEventListener('click',async()=>{
-  if(!playing){
-    try{await audio.play();playing=true;btn.textContent='Ⅱ ሙዚቃ አቁሚ';}
-    catch(e){btn.textContent='music.mp3 ጨምሪ';}
-  }else{audio.pause();playing=false;btn.textContent='♫ ሙዚቃ አጫውቺ';}
+const audio = document.getElementById('bgmusic');
+const btn = document.getElementById('musicBtn');
+
+btn.addEventListener('click', async () => {
+    try {
+        if (audio.paused) {
+            await audio.play();
+            btn.textContent = 'Ⅱ ሙዚቃ አቁሚ';
+        } else {
+            audio.pause();
+            btn.textContent = '♫ ሙዚቃ አጫውቺ';
+        }
+    } catch (error) {
+        console.error('Music error:', error);
+        btn.textContent = 'ሙዚቃው አልተጫወተም';
+    }
+});
+
+audio.addEventListener('ended', () => {
+    btn.textContent = '♫ ሙዚቃ አጫውቺ';
 });
 </script>
 </body>
